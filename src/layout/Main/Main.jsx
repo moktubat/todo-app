@@ -6,10 +6,10 @@ const Main = () => {
     <div>
       <div className="flex">
         <div className="w-[85px]">
-          <Sidebar />
+          <Sidebar></Sidebar>
         </div>
         <div className="w-full">
-          <Outlet />
+          <Outlet></Outlet>
         </div>
       </div>
     </div>
