@@ -1,18 +1,13 @@
 import { Dialog, Transition } from "@headlessui/react";
-import { Fragment, } from "react";
+import { Fragment } from "react";
 
-export default function TaskModal({isOpen, setIsOpen, title, children}) {
-
+export default function TaskModal({ isOpen, setIsOpen, title, children }) {
   function closeModal() {
     setIsOpen(false);
   }
 
- 
-
   return (
     <>
-
-
       <Transition appear show={isOpen} as={Fragment}>
         <Dialog as="div" className="relative z-10" onClose={closeModal}>
           <Transition.Child
@@ -45,9 +40,7 @@ export default function TaskModal({isOpen, setIsOpen, title, children}) {
                   >
                     {title}
                   </Dialog.Title>
-                  <div className="mt-3">
-                    {children}
-                  </div>
+                  <div className="mt-3">{children}</div>
                 </Dialog.Panel>
               </Transition.Child>
             </div>
