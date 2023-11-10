@@ -3,7 +3,7 @@ import { AiOutlineBell } from "react-icons/ai";
 import MyTasks from "../../../components/MyTasks/MyTasks";
 import TaskCard from "../../../components/TaskCard/TaskCard";
 import { useState } from "react";
-import TaskModal from "../../../components/TaskModal/TaskModal";
+import AddModalTask from "../../../components/TaskModal/AddModalTask";
 
 const TaskArea = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -28,7 +28,7 @@ const TaskArea = () => {
             >
               Add Task
             </button>
-            <TaskModal isOpen={isOpen} setIsOpen={setIsOpen}></TaskModal>
+            <AddModalTask isOpen={isOpen} setIsOpen={setIsOpen}></AddModalTask>
             <div className="h-10 w-10 rounded-xl overflow-hidden">
               <img
                 src="https://images.unsplash.com/photo-1528892952291-009c663ce843?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=644&q=80"
