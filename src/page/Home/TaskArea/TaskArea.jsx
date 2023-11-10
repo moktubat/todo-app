@@ -1,8 +1,8 @@
 
 import { HiMagnifyingGlass } from "react-icons/hi2";
 import { AiOutlineBell } from 'react-icons/ai';
-import MyTasks from '../components/tasks/MyTasks';
-import TaskCard from '../components/tasks/TaskCard';
+import MyTasks from "../../../components/MyTasks/MyTasks";
+import TaskCard from "../../../components/TaskCard/TaskCard";
 
 
 const TaskArea = () => {
@@ -14,13 +14,13 @@ const TaskArea = () => {
             <h1 className="font-semibold text-3xl">Tasks</h1>
           </div>
           <div className="flex gap-5">
-            <button className="border-2 border-secondary/20 hover:border-primary hover:bg-primary rounded-xl h-10 w-10  grid place-content-center text-secondary hover:text-white transition-all">
+            <button className="border-2 border-secondary/20 hover:border-[#E44332] hover:[#E44332] rounded-xl h-10 w-10  grid place-content-center text-secondary hover:text-white transition-all">
               <HiMagnifyingGlass className="h-6 w-6" />
             </button>
-            <button className="border-2 border-secondary/20 hover:border-primary hover:bg-primary rounded-xl h-10 w-10 grid place-content-center text-secondary hover:text-white transition-all">
+            <button className="border-2 border-secondary/20 hover:border-[#E44332] hover:[#E44332] rounded-xl h-10 w-10 grid place-content-center text-secondary hover:text-white transition-all">
               <AiOutlineBell className="h-6 w-6" />
             </button>
-            <button className="btn btn-primary">Add Task</button>
+            <button className="btn btn-[#E44332]">Add Task</button>
             <div className="h-10 w-10 rounded-xl overflow-hidden">
               <img
                 src="https://images.unsplash.com/photo-1528892952291-009c663ce843?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=644&q=80"
@@ -34,7 +34,7 @@ const TaskArea = () => {
           <div className="relative h-[800px] overflow-auto">
             <div className="flex sticky top-0 justify-between bg-[#D3DDF9] p-5 rounded-md mb-3">
               <h1>Up Next</h1>
-              <p className="bg-primary text-white w-6 h-6 grid place-content-center rounded-md">
+              <p className="[#E44332] text-white w-6 h-6 grid place-content-center rounded-md">
                 0
               </p>
             </div>
@@ -45,7 +45,7 @@ const TaskArea = () => {
           <div className="relative h-[800px] overflow-auto">
             <div className="flex sticky top-0 justify-between bg-[#D3DDF9] p-5 rounded-md mb-3">
               <h1>In Progress</h1>
-              <p className="bg-primary text-white w-6 h-6 grid place-content-center rounded-md">
+              <p className="[#E44332] text-white w-6 h-6 grid place-content-center rounded-md">
                 0
               </p>
             </div>
@@ -57,7 +57,7 @@ const TaskArea = () => {
           <div className="relative h-[800px] overflow-auto">
             <div className="flex sticky top-0 justify-between bg-[#D3DDF9] p-5 rounded-md mb-3">
               <h1>Up Next</h1>
-              <p className="bg-primary text-white w-6 h-6 grid place-content-center rounded-md">
+              <p className="[#E44332] text-white w-6 h-6 grid place-content-center rounded-md">
                 0
               </p>
             </div>
