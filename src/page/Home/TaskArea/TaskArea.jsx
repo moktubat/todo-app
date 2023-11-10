@@ -1,11 +1,13 @@
-
 import { HiMagnifyingGlass } from "react-icons/hi2";
-import { AiOutlineBell } from 'react-icons/ai';
+import { AiOutlineBell } from "react-icons/ai";
 import MyTasks from "../../../components/MyTasks/MyTasks";
 import TaskCard from "../../../components/TaskCard/TaskCard";
-
+import { useState } from "react";
+import TaskModal from "../../../components/TaskModal/TaskModal";
 
 const TaskArea = () => {
+  const [isOpen, setIsOpen] = useState(false);
+
   return (
     <div className="h-screen grid grid-cols-12">
       <div className="col-span-9 px-10 pt-10">
@@ -20,7 +22,13 @@ const TaskArea = () => {
             <button className="border-2 border-secondary/20 hover:border-[#E44332] hover:[#E44332] rounded-xl h-10 w-10 grid place-content-center text-secondary hover:text-white transition-all">
               <AiOutlineBell className="h-6 w-6" />
             </button>
-            <button className="btn btn-[#E44332]">Add Task</button>
+            <button
+              onClick={() => setIsOpen(!isOpen)}
+              className="bg-[#E44332] rounded-xl h-10 px-4 grid place-content-center text-white font-semibold transition-all"
+            >
+              Add Task
+            </button>
+            <TaskModal isOpen={isOpen} setIsOpen={setIsOpen}></TaskModal>
             <div className="h-10 w-10 rounded-xl overflow-hidden">
               <img
                 src="https://images.unsplash.com/photo-1528892952291-009c663ce843?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=644&q=80"
