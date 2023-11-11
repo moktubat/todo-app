@@ -21,7 +21,7 @@ const TaskArea = () => {
     return (
       <div className="w-1/4 mx-auto my-24">
         <img
-          src="https://media.tenor.com/2JOBy0LSoX8AAAAi/toto-gym.gif"
+          src="https://i0.wp.com/zuptu.com/wp-content/uploads/2021/05/slackanimation.gif"
           className="w-1/3 h-1/3 mx-auto "
           alt=""
         />
