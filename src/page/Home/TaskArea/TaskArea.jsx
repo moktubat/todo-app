@@ -1,10 +1,11 @@
+import { useEffect, useState } from "react";
 import { HiMagnifyingGlass } from "react-icons/hi2";
 import { AiOutlineBell } from "react-icons/ai";
-import MyTasks from "../../../components/MyTasks/MyTasks";
-import { useEffect, useState } from "react";
 import AddModalTask from "../../../components/TaskModal/AddModalTask";
 import { getAllTasks } from "../../../api/fetch";
 import StatusColumn from "./StatusColumn";
+import { DragDropContext } from "react-beautiful-dnd";
+import MyTasks from "../../../components/MyTasks/MyTasks";
 
 const TaskArea = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -32,6 +33,16 @@ const TaskArea = () => {
   const pendingTasks = tasks.filter((task) => task.status === "pending");
   const inProgressTasks = tasks.filter((task) => task.status === "progress");
   const completeTasks = tasks.filter((task) => task.status === "complete");
+
+  function handleOnDragEnd(result) {
+    if (!result.destination) return;
+
+    const items = Array.from(tasks);
+    const [reorderedItem] = items.splice(result.source.index, 1);
+    items.splice(result.destination.index, 0, reorderedItem);
+
+    setTasks(items);
+  }
 
   return (
     <div className="h-screen grid grid-cols-12">
@@ -64,9 +75,11 @@ const TaskArea = () => {
           </div>
         </div>
         <div className="grid grid-cols-3 gap-5 mt-10">
-          <StatusColumn tasks={pendingTasks} status="Pending" />
-          <StatusColumn tasks={inProgressTasks} status="In Progress" />
-          <StatusColumn tasks={completeTasks} status="Complete" />
+          <DragDropContext onDragEnd={handleOnDragEnd}>
+            <StatusColumn tasks={pendingTasks} status="Pending" />
+            <StatusColumn tasks={inProgressTasks} status="In Progress" />
+            <StatusColumn tasks={completeTasks} status="Complete" />
+          </DragDropContext>
         </div>
       </div>
       <div className="hidden md:block col-span-3 border-l-2 border-secondary/20 px-10 pt-10">

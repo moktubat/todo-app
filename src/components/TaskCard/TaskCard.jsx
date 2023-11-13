@@ -1,12 +1,19 @@
+import { Draggable } from "react-beautiful-dnd";
 import { FaArrowRight, FaRegTrashAlt } from "react-icons/fa";
 
-const TaskCard = ({task}) => {
+const TaskCard = ({ task, index }) => {
   return (
-    <div>
-      
-        <div key={task._id} className="bg-gray-200 rounded-md p-5 my-4">
+    <Draggable key={task._id} draggableId={task._id} index={index}>
+      {(provided) => (
+        <div
+          key={task._id}
+          ref={provided.innerRef}
+          {...provided.draggableProps}
+          {...provided.dragHandleProps}
+          className="bg-gray-200 rounded-md p-5 my-4"
+        >
           <h1
-            className={`text-lg font-semibold mb-3  ${
+            className={`text-lg font-semibold mb-3 ${
               task.priority === "high" ? "text-red-500" : ""
             } ${task.priority === "medium" ? "text-yellow-500" : ""} ${
               task.priority === "low" ? "text-green-500" : ""
@@ -28,8 +35,8 @@ const TaskCard = ({task}) => {
             </div>
           </div>
         </div>
-    
-    </div>
+      )}
+    </Draggable>
   );
 };
 
