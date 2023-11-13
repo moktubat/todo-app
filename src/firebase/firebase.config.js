@@ -5,12 +5,12 @@ import { initializeApp } from "firebase/app";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyB-oFjsCFBVbPKiyxD2ek7kv-lrdcL1dPY",
-  authDomain: "taskodo-app.firebaseapp.com",
-  projectId: "taskodo-app",
-  storageBucket: "taskodo-app.appspot.com",
-  messagingSenderId: "303235856895",
-  appId: "1:303235856895:web:b92ad37a58bc66d0880fca"
+    apiKey: import.meta.env.VITE_apiKey,
+    authDomain: import.meta.env.VITE_authDomain,
+    projectId: import.meta.env.VITE_projectId,
+    storageBucket: import.meta.env.VITE_storageBucket,
+    messagingSenderId: import.meta.env.VITE_messagingSenderId,
+    appId: import.meta.env.VITE_appId,
 };
 
 // Initialize Firebase

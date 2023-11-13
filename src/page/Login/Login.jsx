@@ -183,7 +183,7 @@ const Login = () => {
                           Forgot password?
                         </Link>
 
-                        <Link to="/signUp" className="label-text-alt pt-4">
+                        <Link to="/register" className="label-text-alt pt-4">
                           Sign Up
                         </Link>
                       </label>
