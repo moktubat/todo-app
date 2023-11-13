@@ -3,10 +3,11 @@ import { useForm } from "react-hook-form";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import { AuthContext } from "../../provider/AuthProvider";
-
+import { saveUser } from "../../api/fetch";
+import toast from "react-hot-toast";
 
 const Login = () => {
-  const { signIn, googleSignIn } = useContext(AuthContext);
+  const { signIn, googleSignIn, setUser, setLoading } = useContext(AuthContext);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -41,25 +42,32 @@ const Login = () => {
   };
 
   const handleGoogleSignIn = () => {
-    googleSignIn().then((result) => {
-      const loggedInUser = result.user;
-      console.log(loggedInUser);
-      const saveUser = {
-        name: loggedInUser.displayName,
-        email: loggedInUser.email,
-      };
-      fetch("http://localhost:5000/users", {
-        method: "POST",
-        headers: {
-          "content-type": "application/json",
-        },
-        body: JSON.stringify(saveUser),
-      })
-        .then((res) => res.json())
-        .then(() => {
-          navigate(from, { replace: true });
+    googleSignIn()
+      .then((result) => {
+        const loggedUser = result.user;
+        console.log("from google", loggedUser);
+        setUser(loggedUser);
+        const userInfo = {
+          name: loggedUser.displayName,
+          email: loggedUser.email,
+          image: loggedUser.photoURL,
+        };
+        saveUser(userInfo).then((data) => {
+          if (data.insertedId) {
+            toast.success(
+              `${
+                loggedUser?.displayName || "Unknown user"
+              } logged in successfully`
+            );
+            setLoading(false);
+          }
         });
-    });
+      })
+      .catch((error) => {
+        console.log(error.message);
+        toast.error(error.message);
+        setLoading(false);
+      });
   };
 
   return (
@@ -74,9 +82,19 @@ const Login = () => {
         >
           <div className="lg:w-1/2 xl:w-5/12 p-6 sm:p-8">
             <div>
-            <h2 className="mx-auto md:w-[78%] text-2xl sm:text-4xl font-bold" style={{ backgroundImage: "linear-gradient(to right, #BC5B80, #E0636B)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>SignIn Here</h2>
+              <h2
+                className="mx-auto md:w-[78%] text-2xl sm:text-4xl font-bold pb-4"
+                style={{
+                  backgroundImage:
+                    "linear-gradient(to right, #BC5B80, #E0636B)",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                }}
+              >
+                SignIn Here
+              </h2>
             </div>
-            <div className="md:mt-3 flex flex-col items-center">
+            <div className="flex flex-col items-center">
               <div className="w-full flex-1 mt-8">
                 <div className="flex flex-col items-center">
                   <button
@@ -166,7 +184,7 @@ const Login = () => {
                         </Link>
 
                         <Link to="/signUp" className="label-text-alt pt-4">
-                        Sign Up
+                          Sign Up
                         </Link>
                       </label>
                     </div>
@@ -176,7 +194,7 @@ const Login = () => {
             </div>
           </div>
           <div className="flex-1 bg-[#fed6e3] text-center hidden lg:flex rounded-lg">
-            <div className="m-12 xl:m-16 w-full bg-contain bg-center bg-no-repeat bg-[url('https://i.ibb.co/zSGZyJc/SignUp.webp')]"></div>
+            <div className="m-12 xl:m-16 w-full bg-contain bg-center bg-no-repeat bg-[url('https://www.vectorloom.com/illustrations/Daily_task_vector_illustration%7Ctask,todo,list,calendar,done,women,activity%7Cthemebfa0fa%7C1692780778652.png')]"></div>
           </div>
         </div>
       </div>
