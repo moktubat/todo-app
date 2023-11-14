@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { HiMagnifyingGlass } from "react-icons/hi2";
 import { AiOutlineBell } from "react-icons/ai";
 import AddModalTask from "../../../components/TaskModal/AddModalTask";
-import { getAllTasks } from "../../../api/fetch";
+import { getAllTasks, updateTaskStatus } from "../../../api/fetch";
 import StatusColumn from "./StatusColumn";
 import { DragDropContext } from "react-beautiful-dnd";
 import MyTasks from "../../../components/MyTasks/MyTasks";
@@ -10,7 +10,7 @@ import { Link } from "react-router-dom";
 import { AuthContext } from "../../../provider/AuthProvider";
 
 const TaskArea = () => {
-  const { signOut, user } = useContext(AuthContext);
+  const { logOut, user } = useContext(AuthContext);
   const [isOpen, setIsOpen] = useState(false);
   const [tasks, setTasks] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -34,7 +34,7 @@ const TaskArea = () => {
   }
 
   const handleLogOut = () => {
-    signOut()
+    logOut()
       .then(() => {})
       .catch((error) => console.log(error));
   };
@@ -43,15 +43,27 @@ const TaskArea = () => {
   const inProgressTasks = tasks.filter((task) => task.status === "progress");
   const completeTasks = tasks.filter((task) => task.status === "complete");
 
-  function handleOnDragEnd(result) {
+  const handleOnDragEnd = async (result) => {
     if (!result.destination) return;
 
-    const items = Array.from(tasks);
-    const [reorderedItem] = items.splice(result.source.index, 1);
-    items.splice(result.destination.index, 0, reorderedItem);
+    const updatedTasks = [...tasks];
+    const [movedTask] = updatedTasks.splice(result.source.index, 1);
+    const newStatus = result.destination.droppableId;
 
-    setTasks(items);
-  }
+    movedTask.status = newStatus;
+    updatedTasks.splice(result.destination.index, 0, movedTask);
+
+    setTasks(updatedTasks);
+
+    try {
+      await updateTaskStatus(movedTask._id, newStatus);
+    } catch (error) {
+      console.error('Error updating task status on the server:', error);
+    }
+  };
+
+    
+    
 
   return (
     <div className="h-screen grid grid-cols-12">
@@ -73,13 +85,13 @@ const TaskArea = () => {
             >
               Add Task
             </button>
-            <AddModalTask isOpen={isOpen} setIsOpen={setIsOpen}></AddModalTask>
+            <AddModalTask isOpen={isOpen} setIsOpen={setIsOpen} setTasks={setTasks} ></AddModalTask>
 
-            <Link>
+            <Link className="flex gap-x-2">
               {user ? (
                 <>
                   {user.photoURL && (
-                    <div className="w-10 h-10 rounded-full overflow-hidden">
+                    <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-[#E44332]">
                       <img
                         className="w-full h-full"
                         src={user.photoURL}
@@ -105,7 +117,7 @@ const TaskArea = () => {
         <div className="grid grid-cols-3 gap-5 mt-10">
           <DragDropContext onDragEnd={handleOnDragEnd}>
             <StatusColumn tasks={pendingTasks} status="Pending" />
-            <StatusColumn tasks={inProgressTasks} status="In Progress" />
+            <StatusColumn tasks={inProgressTasks} status="Progress" />
             <StatusColumn tasks={completeTasks} status="Complete" />
           </DragDropContext>
         </div>
