@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { HiMagnifyingGlass } from "react-icons/hi2";
 import { AiOutlineBell } from "react-icons/ai";
 import AddModalTask from "../../../components/TaskModal/AddModalTask";
@@ -6,8 +6,11 @@ import { getAllTasks } from "../../../api/fetch";
 import StatusColumn from "./StatusColumn";
 import { DragDropContext } from "react-beautiful-dnd";
 import MyTasks from "../../../components/MyTasks/MyTasks";
+import { Link } from "react-router-dom";
+import { AuthContext } from "../../../provider/AuthProvider";
 
 const TaskArea = () => {
+  const { signOut, user } = useContext(AuthContext);
   const [isOpen, setIsOpen] = useState(false);
   const [tasks, setTasks] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -29,6 +32,12 @@ const TaskArea = () => {
       </div>
     );
   }
+
+  const handleLogOut = () => {
+    signOut()
+      .then(() => {})
+      .catch((error) => console.log(error));
+  };
 
   const pendingTasks = tasks.filter((task) => task.status === "pending");
   const inProgressTasks = tasks.filter((task) => task.status === "progress");
@@ -65,13 +74,32 @@ const TaskArea = () => {
               Add Task
             </button>
             <AddModalTask isOpen={isOpen} setIsOpen={setIsOpen}></AddModalTask>
-            <div className="h-10 w-10 rounded-xl overflow-hidden">
-              <img
-                src="https://images.unsplash.com/photo-1528892952291-009c663ce843?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=644&q=80"
-                alt=""
-                className="object-cover h-full w-full "
-              />
-            </div>
+
+            <Link>
+              {user ? (
+                <>
+                  {user.photoURL && (
+                    <div className="w-10 h-10 rounded-full overflow-hidden">
+                      <img
+                        className="w-full h-full"
+                        src={user.photoURL}
+                        alt="User"
+                      />
+                    </div>
+                  )}
+                  <Link
+                    onClick={handleLogOut}
+                    className="bg-[#E44332] rounded-xl h-10 px-4 grid place-content-center text-white font-semibold transition-all"
+                  >
+                    Logout
+                  </Link>
+                </>
+              ) : (
+                <Link className="bg-[#E44332] rounded-xl h-10 px-4 grid place-content-center text-white font-semibold transition-all" to="/login">
+                  Login
+                </Link>
+              )}
+            </Link>
           </div>
         </div>
         <div className="grid grid-cols-3 gap-5 mt-10">

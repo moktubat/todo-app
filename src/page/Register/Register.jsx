@@ -12,7 +12,7 @@ const Register = () => {
     formState: { errors },
   } = useForm();
 
-  const { user, createUser, updateUserProfile, setUser,setLoading } = useContext(AuthContext);
+  const { user, createUser, updateUserProfile, setUser, setLoading } = useContext(AuthContext);
 
   const onSubmit = (data) => {
     console.log(data);
@@ -185,9 +185,9 @@ const Register = () => {
                       <input
                         className={`w-full px-8 py-3 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white mt-5`}
                         type="file"
-                        name="photoURL"
-                        id="photoURL"
+                        name="photo"
                         accept="image/*"
+                        {...register("photo", { required: true })}
                       />
                     </div>
                     <div className="form-control">
