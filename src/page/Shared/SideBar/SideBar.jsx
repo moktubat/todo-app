@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 
 const Sidebar = () => {
   return (
-    <div className="w-[75px] h-screen fixed top-0 border-r-2 border-secondary/20">
+    <div className="hidden md:block w-[75px] h-screen fixed top-0 border-r-2 border-secondary/20">
       <div className="flex flex-col items-center gap-5 h-full py-5">
         <NavLink to="/">
           <img

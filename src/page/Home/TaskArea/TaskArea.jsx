@@ -114,11 +114,11 @@ const TaskArea = () => {
             </Link>
           </div>
         </div>
-        <div className="grid grid-cols-3 gap-5 mt-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mt-10">
           <DragDropContext onDragEnd={handleOnDragEnd}>
-            <StatusColumn tasks={pendingTasks} status="Pending" />
-            <StatusColumn tasks={inProgressTasks} status="Progress" />
-            <StatusColumn tasks={completeTasks} status="Complete" />
+            <StatusColumn tasks={pendingTasks} status="Pending" setTasks={setTasks}/>
+            <StatusColumn tasks={inProgressTasks} status="Progress" setTasks={setTasks}/>
+            <StatusColumn tasks={completeTasks} status="Complete" setTasks={setTasks}/>
           </DragDropContext>
         </div>
       </div>

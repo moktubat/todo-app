@@ -1,7 +1,8 @@
 import TaskCard from "../../../components/TaskCard/TaskCard";
 import { Droppable } from "react-beautiful-dnd";
 
-const StatusColumn = ({ tasks, status }) => {
+const StatusColumn = ({ tasks, status, setTasks }) => {
+  const isCompleteStatus = status.toLowerCase() === 'complete';
   return (
     <div className="relative h-[800px] overflow-auto">
       <div className="flex sticky top-0 justify-between bg-[#D3DDF9] p-5 rounded-md mb-3">
@@ -17,14 +18,15 @@ const StatusColumn = ({ tasks, status }) => {
             style={{
               backgroundColor: snapshot.isDraggingOver
                 ? "lightblue"
-                : "white",
+                : "transparent",
               minHeight: "400px",
             }}
             {...provided.droppableProps}
           >
             <div className="space-y-3">
               {tasks.map((task, index) => (
-                <TaskCard key={task._id} task={task} index={index} />
+                <TaskCard key={task._id} task={task} index={index} isCompleteStatus={isCompleteStatus} setTasks={setTasks}
+                />
               ))}
               {provided.placeholder}
             </div>
