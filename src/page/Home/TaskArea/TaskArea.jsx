@@ -21,18 +21,6 @@ const TaskArea = () => {
       .finally(() => setLoading(false));
   }, []);
 
-  if (loading) {
-    return (
-      <div className="w-1/4 mx-auto my-24">
-        <img
-          src="https://i0.wp.com/zuptu.com/wp-content/uploads/2021/05/slackanimation.gif"
-          className="w-1/3 h-1/3 mx-auto "
-          alt=""
-        />
-      </div>
-    );
-  }
-
   const handleLogOut = () => {
     logOut()
       .then(() => {})
@@ -58,15 +46,40 @@ const TaskArea = () => {
     try {
       await updateTaskStatus(movedTask._id, newStatus);
     } catch (error) {
-      console.error('Error updating task status on the server:', error);
+      console.error("Error updating task status on the server:", error);
     }
   };
 
-    
-    
+  const grid = 8;
+
+  const getItemStyle = (isDragging, draggableStyle) => ({
+    userSelect: "none",
+    padding: grid * 2,
+    margin: `0 0 ${grid}px 0`,
+    background: isDragging ? "lightgreen" : "grey",
+    ...draggableStyle,
+  });
+
+  const getListStyle = (isDraggingOver) => ({
+    background: isDraggingOver ? "lightblue" : "lightgrey",
+    padding: grid,
+    width: 250,
+  });
+
+  if (loading) {
+    return (
+      <div className="w-1/4 mx-auto my-24">
+        <img
+          src="https://i0.wp.com/zuptu.com/wp-content/uploads/2021/05/slackanimation.gif"
+          className="w-1/3 h-1/3 mx-auto "
+          alt=""
+        />
+      </div>
+    );
+  }
 
   return (
-    <div className="h-screen grid grid-cols-12">
+    <div className="my-4 grid grid-cols-12">
       <div className="col-span-9 md:px-4 pt-10">
         <div className="flex justify-between items-center">
           <div>
@@ -85,8 +98,11 @@ const TaskArea = () => {
             >
               Add Task
             </button>
-            <AddModalTask isOpen={isOpen} setIsOpen={setIsOpen} setTasks={setTasks} ></AddModalTask>
-
+            <AddModalTask
+              isOpen={isOpen}
+              setIsOpen={setIsOpen}
+              setTasks={setTasks}
+            ></AddModalTask>
             <Link className="flex gap-x-2">
               {user ? (
                 <>
@@ -107,7 +123,7 @@ const TaskArea = () => {
                   </Link>
                 </>
               ) : (
-                <Link className="bg-[#E44332] rounded-xl h-10 px-4 grid place-content-center text-white font-semibold transition-all" to="/login">
+                <Link className="bg-[#E44332] rounded-xl h-10 px-4 grid place-content-center text-white font-semibold transition-all">
                   Login
                 </Link>
               )}
@@ -116,9 +132,27 @@ const TaskArea = () => {
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mt-10">
           <DragDropContext onDragEnd={handleOnDragEnd}>
-            <StatusColumn tasks={pendingTasks} status="Pending" setTasks={setTasks}/>
-            <StatusColumn tasks={inProgressTasks} status="Progress" setTasks={setTasks}/>
-            <StatusColumn tasks={completeTasks} status="Complete" setTasks={setTasks}/>
+            <StatusColumn
+              tasks={pendingTasks}
+              status="Pending"
+              setTasks={setTasks}
+              getItemStyle={getItemStyle}
+              getListStyle={getListStyle}
+            />
+            <StatusColumn
+              tasks={inProgressTasks}
+              status="Progress"
+              setTasks={setTasks}
+              getItemStyle={getItemStyle}
+              getListStyle={getListStyle}
+            />
+            <StatusColumn
+              tasks={completeTasks}
+              status="Complete"
+              setTasks={setTasks}
+              getItemStyle={getItemStyle}
+              getListStyle={getListStyle}
+            />
           </DragDropContext>
         </div>
       </div>
